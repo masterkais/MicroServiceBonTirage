@@ -25,10 +25,14 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class BonTirageResponse implements Serializable {
-	    @Id@GeneratedValue(strategy = GenerationType.AUTO) 
+	    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+		@Id@GeneratedValue(strategy = GenerationType.AUTO) 
 	    private  int id_bon;
 	    private Date date_bon;
-		private DemandeTirageResponse d;
+		private DemandeTirageResponseV2 d;
 		public BonTirageResponse(BonTirage b) {
 			this.id_bon=b.getId_bon();
 			this.date_bon=b.getDate_bon();

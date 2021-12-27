@@ -39,14 +39,7 @@ private String email;
 private String phone;
 private String login;
 private String password;
-@JsonIgnore
-private List<MatiereResponse> lm;
-@JsonIgnore
-private List<DemandeTirageResponse> ld;
-@JsonIgnore
-private DepartementResponse dep;
-@JsonIgnore
-private List<DocumentResponse> ldoc;
+
 
 
 }

@@ -11,8 +11,11 @@ import com.iit.imprimerie.dao.BonTirageDao;
 import com.iit.imprimerie.entities.BonTirage;
 import com.iit.imprimerie.entities_response.BonTirageResponse;
 import com.iit.imprimerie.entities_response.DemandeTirageResponse;
+import com.iit.imprimerie.entities_response.DemandeTirageResponseV2;
 import com.iit.imprimerie.entities_response.DocumentResponse;
 import com.iit.imprimerie.entities_response.EnseignantResponse;
+import com.iit.imprimerie.entities_response.Ligne_DemandeResponse;
+import com.iit.imprimerie.entities_response.Ligne_DemandeResponseV2;
 import com.iit.imprimerie.exception.NoException;
 import com.iit.imprimerie.exception.NotFoundException;
 import com.iit.imprimerie.proxies.MicroServiceDemandeTirageProxy;
@@ -39,17 +42,35 @@ public class BonTirageService {
 	}
 
 	public List<BonTirageResponse> getAllBonTirage() {
-		List<BonTirageResponse> lc = new ArrayList<BonTirageResponse>();
+		List<BonTirageResponse> lb = new ArrayList<BonTirageResponse>();
 		List<BonTirage> l = bdo.findAll();
 		for (int i = 0; i < l.size(); i++) {
 			BonTirageResponse b = new BonTirageResponse(l.get(i));
-			DemandeTirageResponse d = getDemandeById(l.get(i).getId_demande());
-			EnseignantResponse e = getEnsById(d.getEns().getId());
-			d.setEns(e);
-			b.setD(d);
-			lc.add(b);
+			DemandeTirageResponse d=getDemandeById(1);
+			
+			d.setEns(getEnsById(1));
+			d.setLc(null);
+			lb.add(b);
+		    
 		}
-		return lc;
+		return lb;
+	
+	}
+	public List<BonTirageResponse> getAllBonTirageV2() {
+		List<BonTirageResponse> lb = new ArrayList<BonTirageResponse>();
+		List<BonTirage> l = bdo.findAll();
+		for (int i = 0; i < l.size(); i++) {
+			BonTirageResponse b = new BonTirageResponse(l.get(i));
+			DemandeTirageResponseV2 d=getDemandeByIdV2(l.get(i).getId_demande());
+			List<Ligne_DemandeResponseV2> ld=mdo.GetLigneDemandeByIdDemandeV2(l.get(i).getId_demande());
+			d.setLc(ld);
+			b.setD(d);
+			
+			lb.add(b);
+		    
+		}
+		return lb;
+	
 	}
 
 
@@ -67,6 +88,10 @@ public class BonTirageService {
 
 	public DemandeTirageResponse getDemandeById(int id) {
 		return mdo.GetDemandeById(id);
+
+	}
+	public DemandeTirageResponseV2 getDemandeByIdV2(int id) {
+		return mdo.GetDemandeByIdV2(id);
 
 	}
 }

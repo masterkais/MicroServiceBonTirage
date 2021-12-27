@@ -3,6 +3,8 @@ package com.iit.imprimerie.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import com.iit.imprimerie.entities.BonTirage;
 import com.iit.imprimerie.entities_response.BonTirageResponse;
 import com.iit.imprimerie.services.BonTirageService;
 
+import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -33,9 +36,21 @@ public class BonTirageController {
 
 	@ApiOperation(value = "renvoie la liste des bons", notes = "cette methode permet de renvoyer la liste des objet qui existe dans le base de donnée", responseContainer = "List<BonTirage>")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "la liste des objet / une liste vide"), })
-	@GetMapping("/GetAllBonTirage")
+	@GetMapping(value="/GetAllBonTirage",produces=MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	@Transactional(timeout = 120)
 	public List<BonTirageResponse> getAllBonTirage() {
 		return dts.getAllBonTirage();
+	}
+	
+	
+	@ApiOperation(value = "renvoie la liste des bons", notes = "cette methode permet de renvoyer la liste des objet qui existe dans le base de donnée", responseContainer = "List<BonTirage>")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "la liste des objet / une liste vide"), })
+	@GetMapping(value="/GetAllBonTirageV2",produces=MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	@Transactional(timeout = 120)
+	public List<BonTirageResponse> getAllBonTirageV2() {
+		return dts.getAllBonTirageV2();
 	}
 /*
 	@ApiOperation(value = "renvoie la liste des bons par enseiganat", notes = "cette methode permet de renvoyer la liste des objet qui existe dans le base de donnée", responseContainer = "List<BonTirage>")
